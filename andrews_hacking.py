@@ -11,8 +11,6 @@ def main():
     introduce()
     word_list = get_word_list()
     password = get_password(word_list)
-    num_matches = 0
-    count = 3
     get_matching_letter_words(password, word_list, num_matches, count)
     game_word_list = combine_word_lists()
 
@@ -27,7 +25,7 @@ def introduce():
 # from the text file pull out all of the game words.
 def get_word_list():
     with open("sevenletterwords.txt", "r") as file:
-        word_list = [line.strip().upper() for line in file]
+        word_list = [line.strip().upper() for line in file.readlines()]
         # test print(full_list_of_words)
         return word_list
 
@@ -49,13 +47,17 @@ def get_matching_letter_words(password, word_list, num_matches, count):
     return matching_words
 
 
-def combine_word_lists(word_list, password):
+def combine_word_lists(password, word_list):
     zero_word_list = get_matching_letter_words(password, word_list, 0, 3)
     one_word_list = get_matching_letter_words(password, word_list, 1, 3)
     three_word_list = get_matching_letter_words(password, word_list, 3, 3)
     five_word_list = get_matching_letter_words(password, word_list, 3, 5)
-    game_list = zero_word_list + one_word_list + three_word_list + five_word_list
-    return word_list
+    game_list = merge(zero_word_list, one_word_list, three_word_list, five_word_list)
+    return game_list
+
+
+def merge(*lists: [list]) -> list:
+    return [item for sublist in lists for item in sublist]
 
 
 def randomWords(full_game_words_list):
@@ -63,11 +65,15 @@ def randomWords(full_game_words_list):
     if random_word_list < 2:
         randomWord = random.choice(full_game_words_list)
         random_word_list.append(randomWord)
-    return randomWord
+        return randomWord
+
+    else:
+        print("Error!")
+        return
 
 
 def generate_memory_address():
-    memory_address = print(f"x0" + str(random.randint(1000, 9999)))
+    memory_address = f"x0" + str(random.randint(1000, 9999))
     return memory_address
 
 
