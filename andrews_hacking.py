@@ -21,7 +21,6 @@ def introduce():
         f"Agent {name}! The evil dictator Kim Jong Un has decided to launch the nukes. All of humanites hopes rest on your shoulders to hack into the system and stop the launch. You will see a series of possible words that are the password. Use our hint system software to determine if you are closs to guessing the password. You are our last hope.... \n Okay agent {name}, here are list of the possible passwords. \n Type in the word from the available list of words that you believe is the password."
     )
 
-
 # from the text file pull out all of the game words.
 def get_word_list():
     with open("sevenletterwords.txt", "r") as file:
@@ -48,11 +47,11 @@ def get_matching_letter_words(password, word_list, num_matches, count):
 
 
 def combine_word_lists(password, word_list):
-    zero_word_list = get_matching_letter_words(password, word_list, 0, 3)
-    one_word_list = get_matching_letter_words(password, word_list, 1, 3)
-    three_word_list = get_matching_letter_words(password, word_list, 3, 3)
-    five_word_list = get_matching_letter_words(password, word_list, 3, 5)
-    game_list = merge(zero_word_list, one_word_list, three_word_list, five_word_list)
+    zero_letter_words = get_matching_letter_words(password, word_list, 0, 3)
+    one_letter_words = get_matching_letter_words(password, word_list, 1, 3)
+    three_letter_words = get_matching_letter_words(password, word_list, 3, 3)
+    five_letter_words = get_matching_letter_words(password, word_list, 3, 5)
+    game_list = merge(zero_letter_words, one_letter_words, three_letter_words, five_letter_words)
     return game_list
 
 
