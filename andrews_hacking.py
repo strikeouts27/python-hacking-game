@@ -13,9 +13,7 @@ def main():
     introduce()
     word_list = get_word_list()
     password = get_password(word_list)
-    get_matching_letter_words(password, word_list, num_matches=3, count=3)
-    game_word_list = combine_word_lists(password, word_list)
-    print(game_word_list)
+    game_words = get_game_words(word_list)
 
 
 # introduce game
@@ -39,47 +37,42 @@ def get_password(word_list):
     # print("test: This is a test for the correct word: " + correct_word)
     return password
 
+# find 3 0 matching letter words, 3 1 matching letter words, 3 2 matching letter words,
+def get_game_words(word_list, count):
+    password = "python"
+    overlapping_words = []
 
-# num_matches is the number of matching letters.
-def get_matching_letter_words(password, word_list, num_matches, count):
-    matching_words = []
-    while len(matching_words) < count:
-        word = random.choice(word_list)
-        if sum(l1 == l2 for l1, l2 in zip(password, word)) == num_matches:
-            matching_words.append(word)
-    return matching_words
-
-
-def combine_word_lists(password, word_list):
-    zero_letter_words = get_matching_letter_words(password, word_list, 0, 3)
-    one_letter_words = get_matching_letter_words(password, word_list, 1, 3)
-    three_letter_words = get_matching_letter_words(password, word_list, 3, 3)
-    five_letter_words = get_matching_letter_words(password, word_list, 3, 5)
-    game_list = merge(
-        zero_letter_words, one_letter_words, three_letter_words, five_letter_words
-    )
-    return game_list
+    # while count < 3:
+    overlap_n = 2  # or more
+    for word in word_list:
+        # breakpoint()
+        overlap = set(password) & set(word)
+        if len(overlap) >= overlap_n and word != password:
+            overlapping_words.append(word)
+        # count += 1
+    return random.choice(overlapping_words)
 
 
-def merge(*lists: [list]) -> list:
-    return [item for sublist in lists for item in sublist]
+# def get_word_gen():
+#     with open("sevenletterwords.txt", "r") as f:
+#         w = (x.strip().upper() for x in f.readlines())
+#     return w  # this is a generator
 
 
-def randomWords(full_game_words_list):
-    random_word_list = []
-    if random_word_list < 2:
-        randomWord = random.choice(full_game_words_list)
-        random_word_list.append(randomWord)
-        return randomWord
+# word = "WIDGETS"
+# test = []
+# for w in get_word_gen():
+#     x = set(word)
+#     x.intersection_update(set(w))
+#     test.append((w, x))
 
-    else:
-        print("Error!")
-        return
+# points = filter(lambda x: len(x[1]) == 1, test)
+# result = [w[0] for w in points if w[0].count(w[1].pop()) == 2]
+# print(result)
 
 
-def generate_memory_address():
-    memory_address = f"x0" + str(random.randint(1000, 9999))
-    return memory_address
+def display_board():
+    pass
 
 
 # If this program was run (instead of imported), run the game:
