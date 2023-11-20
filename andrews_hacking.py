@@ -1,16 +1,23 @@
+# IMPORTS
 import sys
 import random
 
+# -----------------------------------------------------------------#
+
+# CONSTANTS
 # garbage characters system
 garbage_chars = ["~!@#$%^&*()_+-={}[]|;:,.<>?/"]
 
+# Load the WORDS list from a text file that has 7-letter words.
+with open("sevenletterwords.txt") as file:
+    word_list = file.readlines()
+for i in range(len(word_list)):
+    # Convert each word to uppercase and remove the trailing newline:
+    word_list[i] = word_list[i].strip().upper()
 
-def main():
-    introduce()
-    word_list = get_word_list()
+# -------------------------------------------------------------------#
+# FUNCTIONS
 
-
-# introduce game
 def introduce():
     name = input("To start the game please type in your player name: ")
     print(
@@ -37,53 +44,27 @@ def get_password(word_list):
 # my goal is to use this function to get 3 0 letter matching words and 3 1 letter matching words and 3 2 letter matching words and so on.
 # a set of game words that I will actually be using. vs the word_list which is all of the words in the text file.
 # count is the number of words that python will collect for each matching letter words.
-def get_game_words(
-    word_list,
-    zero_letters=0,
-    one_letters=1,
-    two_letters=2,
-    three_letters=3,
-    four_letters=4,
-    count=3,
-):
-    password = get_password(word_list)
-    # print(f'password is {password}')
+def get_n_overlap(password, n):
     overlapping_words = []
-    # overlap_n is part of the filter variable that tells python to only grab game words with 2 matching letters to the password.
-    overlap_n = zero_letters, one_letters, two_letters, three_letters, four_letters
     for word in word_list:
-        if word in game_words:
-            continue
-
-        # this finds the matching characters
-        overlap = set(password.upper()) & set(word.upper())
-        print("This is the password: " + password)
-        print("This is the word: " + word)
-        print("this is overlap: " + str(overlap))
-        if len(overlap) >= overlap_n and word.upper() != password.upper():
-            print(f"Adding word to list {word}")
+        overlap = set(password) & set(word)
+        if len(overlap) == n and word != password:
             overlapping_words.append(word)
-            count += 1
-            # print(f"This is before the count incremention: {count}")
-        if count > 3 and len(overlapping_words) > 14:
-            break
-    print(f"count of overlapping words {len(overlapping_words)}")
-    print("this is the " + str(count))
-
-    # return random.choice(overlapping_words)
+    return overlapping_words
 
 
-# function calls
-word_list = get_word_list()
-count = 3
-game_words = get_game_words(word_list, count)
+# DRIVER CODE ---------------------
 password = get_password(word_list)
-get_game_words(word_list, 0, 1, 2, 3, 4)
-    # return random.choice(overlapping_words)
+print("Test for password: " + password)
+overlapping = {}
+
+for i in range(len(password)):
+    overlapping[i] = get_n_overlap(password, i)
+
+def main():
+    introduce()
 
 
-def display_board():
-    pass
 
 
 # If this program was run (instead of imported), run the game:
