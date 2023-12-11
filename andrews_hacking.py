@@ -18,6 +18,7 @@ for i in range(len(word_list)):
 # -------------------------------------------------------------------#
 # FUNCTIONS
 
+
 def introduce():
     name = input("To start the game please type in your player name: ")
     print(
@@ -52,19 +53,25 @@ def get_n_overlap(password, n):
             overlapping_words.append(word)
     return overlapping_words
 
+game_words = {}
+password = "reverse"
+
+# implemented a for loop to target the dictionary so that 
+for i in range(5):
+    game_words[i] = get_n_overlap(password, i)
+
+game_words[0] = get_n_overlap(password, 0)
+game_words[1] = get_n_overlap(password, 1)
+game_words[2] = get_n_overlap(password, 2)
+game_words[3] = get_n_overlap(password, 3)
+game_words[4] = get_n_overlap(password, 4)
+
 
 # DRIVER CODE ---------------------
-password = get_password(word_list)
-print("Test for password: " + password)
-overlapping = {}
 
-for i in range(len(password)):
-    overlapping[i] = get_n_overlap(password, i)
 
 def main():
     introduce()
-
-
 
 
 # If this program was run (instead of imported), run the game:
