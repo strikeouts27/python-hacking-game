@@ -78,8 +78,9 @@ def get_n_overlap(password, n):
 # hex system for the memory address
 # ...
 
+
 def garbageify(word, width):
-    pass 
+    pass
 
 
 # ...
