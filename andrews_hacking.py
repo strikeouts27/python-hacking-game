@@ -2,7 +2,6 @@
 import sys
 import random
 
-
 """
 https://inventwithpython.com/bigbookpython/project33.html
 basically game_words is where I am telling python to grab the 15 words used fo the hacking mini game.
@@ -19,16 +18,6 @@ after that I need to make a game board that will display the characters and the 
 # garbage characters system
 garbage_chars = "~!@#$%^&*()_+-={}[]|;:,.<>?/"
 
-# Load the WORDS list from a text file that has 7-letter words.
-with open("sevenletterwords.txt") as file:
-    word_list = file.readlines()
-for i in range(len(word_list)):
-    # Convert each word to uppercase and remove the trailing newline:
-    word_list[i] = word_list[i].strip().upper()
-
-# -------------------------------------------------------------------#
-# FUNCTIONS
-
 
 def introduce():
     name = input("To start the game please type in your player name: ")
@@ -37,7 +26,45 @@ def introduce():
     )
 
 
-# from the text file pull out all of the game words.
+def final_game_word(game_word_set):
+    one_game_word = random.choice(game_word_set)
+    return one_game_word
+
+
+def game_row_generator(final_game_words):
+    row = []
+    starting_garbage_number = random.randint(2, 8)
+
+    for i in range(starting_garbage_number):
+        print(random.choice(garbage_chars), end="")
+        starting_garbage_characters = row.append(random.choice(garbage_chars))
+
+    for ending_characters in range(9 - range(row)):
+        random.choice(garbage_chars),
+        row.append(ending_characters)
+
+    x = (
+        starting_garbage_characters
+        + str(final_game_word(game_word_set))
+        + str(ending_characters)
+    )
+    (
+        str(starting_characters)
+        + str(final_game_word(game_word_set))
+        + str(ending_characters)
+    )
+    return x
+
+
+def generate_game_row(final_game_words):
+    game_word_row = (
+        str(hex_number())
+        + str(final_game_word(final_game_words))
+        + str(game_row_generator(final_game_words))
+    )
+    return game_word_row
+
+
 def get_word_list():
     with open("sevenletterwords.txt", "r") as file:
         word_list = [line.strip().upper() for line in file.readlines()]
@@ -51,13 +78,6 @@ def get_password(word_list):
     password = random.choice(word_list)
     print("test: This is a test for the password: ", password)
     return password
-
-
-# my goal is to use this function to get 3 0 letter matching words and 3 1 letter matching words and 3 2 letter matching words and so on.
-# a set of game words that I will actually be using. vs the word_list which is all of the words in the text file.
-# count is the number of words that python will collect for each matching letter words.
-
-# it seems that x never reaches three words.
 
 
 def get_n_overlap(password, n):
@@ -74,21 +94,22 @@ def get_n_overlap(password, n):
     return overlapping_words
 
 
-# I need to input the memory address characters into the strings and than the garbage characters into the strings.
-# hex system for the memory address
-# ...
+def hex_number():
+    number = random.randint(1000, 9999)
+    hex_number = hex(number)
+    return hex_number
 
-
-def garbageify(word, width):
-    pass
-
-
-# ...
 
 # DRIVER CODE ---------------------
 # these lines of code are here to prevent not defined issues.
-password = get_password(word_list)
+
+
+# password = get_password(word_list)
+# word_list = get_word_list()
 word_list = get_word_list()
+password = get_password(word_list)
+# word_list = get_word_list()
+
 game_words_dictionary = {}
 game_words = []
 # we can target keys in a dictionary with variables!
@@ -104,37 +125,19 @@ game_words_dictionary[4] = get_n_overlap(password, 4)
 # the iter function runs out after sum is used.
 game_word_set = sum(game_words_dictionary.values(), [])
 game_word_set.append(password)
-# all of the game words shuffled
-final_game_words = random.shuffle(game_word_set)
-print("This is the game_word_set", final_game_words)
+# all of the game words shuffled and shuffling by itself will not hold values.
+random.shuffle(game_word_set)
+print("This is the game_word_set", game_word_set)
+
+one_game_word = final_game_word(game_word_set)
 
 
-def final_game_word(final_game_words):
-    for word in final_game_words:
-        return word
-
-
-# 1000 999
-def hex_number():
-    number = random.randint(1000, 9999)
-    hex_number = hex(number)
-    return hex_number
-
-
-# I want to place the game word after the hex number in a random position
-# what container would support this?
-
-
-def game_row_generator(final_game_words):
-    starting_garbage = random.randint(2, 8)
-    for c in range(starting_garbage):
-        print(random.choice(garbage_chars), end="")
-
-    for c in range(9 - starting_garbage):
-        print(random.choice(garbage_chars), end="")
-
-x = game_row_generator(final_game_words)
+x = generate_game_row(game_word_set)
 print(x)
+
+x = final_game_word()
+print(x)
+
 
 def main():
     rows = 16
@@ -151,3 +154,4 @@ if __name__ == "__main__":
         main()
     except KeyboardInterrupt:
         sys.exit()  # When Ctrl-C is pressed, end the program.
+# random will change things in place. there is no need for variables.
