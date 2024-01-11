@@ -100,17 +100,41 @@ game_words_dictionary[2] = get_n_overlap(password, 2)
 game_words_dictionary[3] = get_n_overlap(password, 3)
 game_words_dictionary[4] = get_n_overlap(password, 4)
 
-# print("This is the password.", password)
-# print("This is game_words", game_words_dictionary)
-
+# hex()+ garbage characters + random placement of game word + garbage characters
+# the iter function runs out after sum is used.
 game_word_set = sum(game_words_dictionary.values(), [])
 game_word_set.append(password)
+# all of the game words shuffled
 final_game_words = random.shuffle(game_word_set)
-print("This is the game_word_set", game_word_set)
+print("This is the game_word_set", final_game_words)
 
-x = str(terminal_address(game_word_set, password))
+
+def final_game_word(final_game_words):
+    for word in final_game_words:
+        return word
+
+
+# 1000 999
+def hex_number():
+    number = random.randint(1000, 9999)
+    hex_number = hex(number)
+    return hex_number
+
+
+# I want to place the game word after the hex number in a random position
+# what container would support this?
+
+
+def game_row_generator(final_game_words):
+    starting_garbage = random.randint(2, 8)
+    for c in range(starting_garbage):
+        print(random.choice(garbage_chars), end="")
+
+    for c in range(9 - starting_garbage):
+        print(random.choice(garbage_chars), end="")
+
+x = game_row_generator(final_game_words)
 print(x)
-
 
 def main():
     rows = 16
