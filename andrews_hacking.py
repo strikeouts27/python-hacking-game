@@ -25,46 +25,7 @@ def introduce():
         f"Agent {name}! The evil dictator Kim Jong Un has decided to launch the nukes. All of humanity's hopes rest on your shoulders to hack into the system and stop the launch. You will see a series of possible words that are the password. Use our hint system software to determine if you are close to guessing the password. The hint system will tell you the letters that the word choice and the password have in common as well as positioning. You are our last hope.... \n Okay agent {name}, here are list of the possible passwords. \n Type in the word from the available list of words that you believe is the password."
     )
 
-
-def final_game_word(game_word_set):
-    one_game_word = random.choice(game_word_set)
-    return one_game_word
-
-
-def game_row_generator(final_game_words):
-    row = []
-    starting_garbage_number = random.randint(2, 8)
-
-    for i in range(starting_garbage_number):
-        print(random.choice(garbage_chars), end="")
-        starting_garbage_characters = row.append(random.choice(garbage_chars))
-
-    for ending_characters in range(9 - range(row)):
-        random.choice(garbage_chars),
-        row.append(ending_characters)
-
-    x = (
-        starting_garbage_characters
-        + str(final_game_word(game_word_set))
-        + str(ending_characters)
-    )
-    (
-        str(starting_characters)
-        + str(final_game_word(game_word_set))
-        + str(ending_characters)
-    )
-    return x
-
-
-def generate_game_row(final_game_words):
-    game_word_row = (
-        str(hex_number())
-        + str(final_game_word(final_game_words))
-        + str(game_row_generator(final_game_words))
-    )
-    return game_word_row
-
-
+# this function will gather in the game words from the sevenletterwords.txt file
 def get_word_list():
     with open("sevenletterwords.txt", "r") as file:
         word_list = [line.strip().upper() for line in file.readlines()]
@@ -72,12 +33,42 @@ def get_word_list():
         # test print(full_list_of_words)
     return word_list
 
-
 # This function generates a password for the player to guess.
 def get_password(word_list):
     password = random.choice(word_list)
-    print("test: This is a test for the password: ", password)
+    # print("test: This is a test for the password: ", password)
     return password
+
+# This function gets one game word from the game word list to place in the game board row.
+# I want this function to randomly select one word from the game_word_set.
+def get_game_word(game_word_set):
+    one_game_word = random.choice(game_word_set)
+    return one_game_word
+
+
+def hex_number():
+    number = random.randint(1000, 9999)
+    hex_number = hex(number)
+    return hex_number
+
+
+# this function will fill the game row with garbage characters.
+def garbage_character_filler(one_game_word):
+    garbage_row = []
+    garbage_placement = random.randint(2, 8)
+
+    # we will fill the game row with a random amount of garbage characters
+    for i in range(garbage_placement):
+        print(random.choice(garbage_chars), end="")
+        garbage_row.append(random.choice(garbage_chars))
+
+    for ending_characters in range(9 - len(garbage_row)):
+        random.choice(garbage_chars),
+        garbage_row.append(ending_characters)
+    return str(garbage_row)
+
+
+# the game words need to have a certain amount of characters in common with the password.
 
 
 def get_n_overlap(password, n):
@@ -85,6 +76,7 @@ def get_n_overlap(password, n):
     x = 0
     for word in word_list:
         if x < 3:
+            # if the number of matching letters is the same as n than append that word to the list.
             overlap = set(password) & set(word)
             if len(overlap) == n and word != password:
                 overlapping_words.append(word)
@@ -94,60 +86,53 @@ def get_n_overlap(password, n):
     return overlapping_words
 
 
-def hex_number():
-    number = random.randint(1000, 9999)
-    hex_number = hex(number)
-    return hex_number
-
-
 # DRIVER CODE ---------------------
 # these lines of code are here to prevent not defined issues.
 
-
-# password = get_password(word_list)
-# word_list = get_word_list()
 word_list = get_word_list()
 password = get_password(word_list)
-# word_list = get_word_list()
 
+# we establish a place to hold the values
 game_words_dictionary = {}
 game_words = []
 # we can target keys in a dictionary with variables!
 # I want to use this technique once I get all three of them in there.
-
+# place the words that have 0 letters in common into the dictionary at the 0 index.
 game_words_dictionary[0] = get_n_overlap(password, 0)
+# now do the same things for the other words
 game_words_dictionary[1] = get_n_overlap(password, 1)
 game_words_dictionary[2] = get_n_overlap(password, 2)
 game_words_dictionary[3] = get_n_overlap(password, 3)
 game_words_dictionary[4] = get_n_overlap(password, 4)
 
-# hex()+ garbage characters + random placement of game word + garbage characters
-# the iter function runs out after sum is used.
+# now we combine these values in the dictionary togather into a single list.
 game_word_set = sum(game_words_dictionary.values(), [])
 game_word_set.append(password)
-# all of the game words shuffled and shuffling by itself will not hold values.
+
+# all of the game words are shuffled and random.shuffle will shuffle the values in place.
+# alright the game words are finally established!
 random.shuffle(game_word_set)
-print("This is the game_word_set", game_word_set)
+print("This is a test for game_word_set after the shuffling occurs." + str(game_word_set))
+# now I need to get the hex() number, garbage character function run, and than have the game word be put into place.
+# garbage character filler requires one game word
 
-one_game_word = final_game_word(game_word_set)
 
-
-x = generate_game_row(game_word_set)
-print(x)
-
-x = final_game_word()
-print(x)
+# one game_word is obtained by calling the get_game_word function, which requires pulling information from the_game_word_set variable.
+# game_row = generate_game_row(game_word_set)
+# print("this is an attempt at a game row! \n" + game_row)
 
 
 def main():
     rows = 16
     columns = 2
-    tries = random.randint(3, 5)
-    # introduce()
-    # word_list = get_word_list()
-    # password = get_password(word_list)
+    introduce()
+    # we call these functions to grab the game words list and the password.
+    get_word_list()
+    get_password(word_list) 
+    one_game_word = get_game_word(game_word_set)
+    garbage_character_filler(one_game_word)
 
-
+    
 # If this program was run (instead of imported), run the game:
 if __name__ == "__main__":
     try:
