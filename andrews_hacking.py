@@ -1,4 +1,3 @@
-# IMPORTS
 import sys
 import random
 
@@ -57,22 +56,24 @@ def hex_number():
 
 # this function will fill the game row with garbage characters.
 def garbage_character_filler(one_game_word):
+    character_row_limit = 16 
     garbage_row = []
     garbage_row.append(hex_number())
     garbage_placement = random.randint(2, 8)
 
-    # we will fill the game row with a random amount of garbage characters
     for i in range(garbage_placement):
-        # print(random.choice(garbage_chars), end="")
-        garbage_row.append(random.choice(garbage_chars))
+        garbage_char = random.choice(garbage_chars)
+        print(garbage_char, end="")
+        garbage_row.append(garbage_char)
 
-    garbage_row.append(get_game_word(one_game_word))
+    # Total Length = (Len of hex string) + (Number of garbage chars) + (Len of keyword)
+    length = len(garbage_row[0]) + len(garbage_row[1:-1]) + len(garbage_row[-1])
 
-    for ending_characters in range(9 - len(garbage_row)):
-        random.choice(garbage_chars),
-        garbage_row.append(ending_characters)
+    for _ in range(character_row_limit - length):
+        garbage_char = random.choice(garbage_chars)
+        garbage_row.append(garbage_char)
 
-    result = "".join(map(str, garbage_row))
+    result = garbage_row 
     return result
 
 
@@ -141,7 +142,6 @@ def main():
     row_test = garbage_character_filler(one_game_word)
     print("\n This is garbage_character_filler called ", row_test)
     result = garbage_character_filler(one_game_word)
-    print("This is the result", result)
 
 
 # If this program was run (instead of imported), run the game:
