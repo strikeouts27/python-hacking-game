@@ -49,7 +49,7 @@ def get_game_word(game_word_set):
 
 
 def hex_number():
-    number = random.randint(1000, 9999)
+    number = random.randint(1000, 1500)
     hex_number = hex(number)
     return hex_number
 
