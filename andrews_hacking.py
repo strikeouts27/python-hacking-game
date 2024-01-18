@@ -108,71 +108,36 @@ def game_word_selection(game_word_set, already_selected_words=None):
 # i need 16 rows not one row generator
 
 
-def garbage_character_filler(one_game_word):
+def garbage_character_filler(game_word):
     character_row_limit = 16
-    game_words_being_used = 16
     garbage_row = []
     garbage_row.append(hex_number())
-    print(
-        "This is the current state of garbage_row with just the hex number", garbage_row
-    )
-    garbage_placement = random.randint(2, 8)
-    for i in range(garbage_placement):
-        garbage_char = random.choice(garbage_chars)
-        print(garbage_char, end="")
-        garbage_row.append(garbage_char)
+    characters_left = character_row_limit - len(garbage_row[0]) - len(game_word)
+    insertion = random.randint(1, characters_left)
+    garbage_chars = "~!@#$%^&*()_+-={}[]|;:,.<>?/"
+    garbage_row.extend(random.choices(garbage_chars, k=5))
+    garbage_row.insert(insertion, game_word)
+    game_row = "".join(garbage_row)
+    return game_row
 
-    # Total Length = (Len of hex string) + (Number of garbage chars) + (Len of keyword)
-    length = len(garbage_row[0]) + len(garbage_row[1:-1]) + len(garbage_row[-1])
-
-    for _ in range(character_row_limit - length):
-        garbage_char = random.choice(garbage_chars)
-        garbage_row.append(garbage_char)
-
-    print(
-        "After the random garbage character placement garbage row looks like this",
-        garbage_row,
-    )
-    result = garbage_row
-    return result
-
-
-def row_maker(
-    game_word_set,
-):
-    hex()
-    game_word_selection()
-    garbage_character_filler()
-    print(hex() + game_word_selection() + garbage_character_filler())
+print(garbage_character_filler(game_word="PERHAPS"))
 
 
 # DRIVER CODE ---------------------
 # these lines of code are here to prevent not defined issues.
-
-# OUTLINE
-# INTRODUCE THE GAME : COMPLETED
-# ESTABLISH THE GAME WORDS AND THE PASSWORD
-# GET THE GAME BOARD ROWS GENERATED
-# hex memory + random number of garbage characters + game_word + random garbage characters.
-
-
-# HAVE THE PLAYER MAKE ATTEMPTS TO GUESS THE PASSWORD
-# HAVE A HINT SYSTEM AND A TRIES LEFT SYSTEM
-# WIN CONDITION
-# LOSING CONDITION
 
 
 def main():
     introduce()
     word_list = get_word_list()
     password = get_password(word_list)
-    print("This is the games password " + password)
 
     game_word_set = get_game_word_set(word_list, password)
-    game_word_selection(game_word_set, already_selected_words=[])
-    row_maker(game_word_set, already_selected_words=None)
 
-    garbage_character_filler(game_word_set)
+    one_game_word, already_selected_words = game_word_selection(
+        game_word_set, already_selected_words=[]
+    )
+    gamerow = garbage_character_filler(one_game_word)
 
 
 # If this program was run (instead of imported), run the game:
