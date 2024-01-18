@@ -55,8 +55,9 @@ def hex_number():
 
 
 # this function will fill the game row with garbage characters.
+# possible solution for word in game_word_set
 def garbage_character_filler(one_game_word):
-    character_row_limit = 16 
+    character_row_limit = 16
     garbage_row = []
     garbage_row.append(hex_number())
     garbage_placement = random.randint(2, 8)
@@ -73,7 +74,7 @@ def garbage_character_filler(one_game_word):
         garbage_char = random.choice(garbage_chars)
         garbage_row.append(garbage_char)
 
-    result = garbage_row 
+    result = garbage_row
     return result
 
 
@@ -119,28 +120,22 @@ game_word_set.append(password)
 # all of the game words are shuffled and random.shuffle will shuffle the values in place.
 # alright the game words are finally established!
 random.shuffle(game_word_set)
-# print("This is a test for game_word_set after the shuffling occurs." + str(game_word_set))
-# now I need to get the hex() number, garbage character function run, and than have the game word be put into place.
-# garbage character filler requires one game word
 
 
-# one game_word is obtained by calling the get_game_word function, which requires pulling information from the_game_word_set variable.
-# game_row = generate_game_row(game_word_set)
-# print("this is an attempt at a game row! \n" + game_row)
+# The problem I need to solve is I need to get the overlapping words and game password and word list
+# consistent throughout my program.
 
 
 def main():
-    rows = 16
-    columns = 2
     introduce()
     # we call these functions to grab the game words list and the password.
     get_word_list()
     get_password(word_list)
     one_game_word = get_game_word(game_word_set)
-    print("This is the one_game_word", one_game_word)
+    print("This is the one_game_word function called. ", one_game_word)
     garbage_character_filler(one_game_word)
     row_test = garbage_character_filler(one_game_word)
-    print("\n This is garbage_character_filler called ", row_test)
+    print("\n This is garbage_character_filler function called. ", row_test)
     result = garbage_character_filler(one_game_word)
 
 
