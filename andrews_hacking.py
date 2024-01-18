@@ -63,6 +63,22 @@ def get_game_word_set(word_list, password):
     return game_word_set
 
 
+# the game words need to have a certain amount of characters in common with the password.
+def get_n_overlap(word_list, n, password):
+    overlapping_words = []
+    x = 0
+    for word in word_list:
+        if x < 3:
+            # if the number of matching letters is the same as n than append that word to the list.
+            overlap = set(password) & set(word)
+            if len(overlap) == n and word != password:
+                overlapping_words.append(word)
+                x += 1
+                if x == 3:
+                    break
+    return overlapping_words
+
+
 # I want the function to generate a hex number.
 # game row
 # Ox217_ _ _ _ _ _ _ _ _ _ _
@@ -72,23 +88,17 @@ def hex_number():
     return hex_number
 
 
-def game_word_selection(game_word_set, already_selected_words):
-    game_words_counter = 0
-    # game_word_set contains all of the function calls where python gathers words that have 0,1,2,3,4 letters in common with the password.
-    # we evaluate if the game word has been selected already. if not, than we return it so that we can call this function
-    # with other functions and join the the hex memor address + the game word+ and some garbage characters. 
+def game_word_selection(game_word_set, already_selected_words=None):
+    if already_selected_words is None:
+        already_selected_words = []
+
     for game_word in game_word_set:
         if game_word not in already_selected_words:
-            already_selected_words.append(game_word)
-            return game_word
+            return game_word, already_selected_words
 
         # If the game word is already selected I need python to try again to find a game word that is not already used.
-        elif game_word in already_selected_words:
-            for game_word in range(500):
-                if game_word not in already_selected_words:
-                    game_word = random.choice(game_word_set)
-                    already_selected_words.append(game_word)
-                    return game_word
+        else:
+            continue
 
 
 # I than want the function to generate a random number indicating the starting position of the garbage characters and fill the row after the hex number. In this case lets say 4
@@ -127,20 +137,13 @@ def garbage_character_filler(one_game_word):
     return result
 
 
-# the game words need to have a certain amount of characters in common with the password.
-def get_n_overlap(word_list, n, password):
-    overlapping_words = []
-    x = 0
-    for word in word_list:
-        if x < 3:
-            # if the number of matching letters is the same as n than append that word to the list.
-            overlap = set(password) & set(word)
-            if len(overlap) == n and word != password:
-                overlapping_words.append(word)
-                x += 1
-                if x == 3:
-                    break
-    return overlapping_words
+def row_maker(
+    game_word_set,
+):
+    hex()
+    game_word_selection()
+    garbage_character_filler()
+    print(hex() + game_word_selection() + garbage_character_filler())
 
 
 # DRIVER CODE ---------------------
@@ -164,8 +167,11 @@ def main():
     word_list = get_word_list()
     password = get_password(word_list)
     print("This is the games password " + password)
+
     game_word_set = get_game_word_set(word_list, password)
-    get_game_word(game_word_set)
+    game_word_selection(game_word_set, already_selected_words=[])
+    row_maker(game_word_set, already_selected_words=None)
+
     garbage_character_filler(game_word_set)
 
 
