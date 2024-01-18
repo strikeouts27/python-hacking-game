@@ -26,27 +26,6 @@ def introduce():
     )
 
 
-def get_game_word_set(word_list, password):
-    game_words_dictionary = {}
-    game_words = []
-    # we can target keys in a dictionary with variables!
-    # I want to use this technique once I get all three of them in there.
-    # place the words that have 0 letters in common into the dictionary at the 0 index.
-    game_words_dictionary[0] = get_n_overlap(password, 0)
-    # now do the same things for the other words
-    game_words_dictionary[1] = get_n_overlap(password, 1)
-    game_words_dictionary[2] = get_n_overlap(password, 2)
-    game_words_dictionary[3] = get_n_overlap(password, 3)
-    game_words_dictionary[4] = get_n_overlap(password, 4)
-    # now we combine these values in the dictionary togather into a single list.
-    game_word_set = sum(game_words_dictionary.values(), [])
-    game_word_set.append(password)
-    random.shuffle(game_word_set)
-    print("This is the game words dictionary. " + str(game_word_set))
-    print("This is the password for the game. " + str(password))
-    return game_word_set
-
-
 # this function will gather in the game words from the sevenletterwords.txt file
 def get_word_list():
     with open("sevenletterwords.txt", "r") as file:
@@ -63,6 +42,36 @@ def get_password(word_list):
     return password
 
 
+def get_game_word_set(word_list, password):
+    game_words_dictionary = {}
+    game_words = []
+    # we can target keys in a dictionary with variables!
+    # I want to use this technique once I get all three of them in there.
+    # place the words that have 0 letters in common into the dictionary at the 0 index.
+    game_words_dictionary[0] = get_n_overlap(word_list, 0, password)
+    # now do the same things for the other words
+    game_words_dictionary[1] = get_n_overlap(word_list, 1, password)
+    game_words_dictionary[2] = get_n_overlap(word_list, 2, password)
+    game_words_dictionary[3] = get_n_overlap(word_list, 3, password)
+    game_words_dictionary[4] = get_n_overlap(word_list, 4, password)
+    # now we combine these values in the dictionary togather into a single list.
+    game_word_set = sum(game_words_dictionary.values(), [])
+    game_word_set.append(password)
+    random.shuffle(game_word_set)
+    print("This is the game words dictionary. " + str(game_word_set))
+    print("This is the password for the game. " + str(password))
+    return game_word_set
+
+
+# I want the function to generate a hex number.
+# game row
+# Ox217_ _ _ _ _ _ _ _ _ _ _
+def hex_number():
+    number = random.randint(1000, 1500)
+    hex_number = hex(number)
+    return hex_number
+
+
 # This function gets one game word from the game word list to place in the game board row.
 # I want this function to randomly select one word from the game_word_set.
 def get_game_word(game_word_set):
@@ -70,17 +79,6 @@ def get_game_word(game_word_set):
     return game_word
 
 
-def hex_number():
-    number = random.randint(1000, 1500)
-    hex_number = hex(number)
-    return hex_number
-
-
-# this function will fill the game row with garbage characters.
-
-
-# I want the function to generate a hex number.
-# Ox217_ _ _ _ _ _ _ _ _ _ _
 # I than want the function to generate a random number indicating the starting position of the garbage characters and fill the row after the hex number. In this case lets say 4
 # Ox217 _ _ _ _ _ _ _ _ _ _ _
 # I than want the game word to be generated and appended to the list.
@@ -109,7 +107,7 @@ def garbage_character_filler(one_game_word):
 
 
 # the game words need to have a certain amount of characters in common with the password.
-def get_n_overlap(password, n, word_list):
+def get_n_overlap(word_list, n, password):
     overlapping_words = []
     x = 0
     for word in word_list:
@@ -145,12 +143,13 @@ get  """
 # WIN CONDITION
 # LOSING CONDITION
 
+
 def main():
     introduce()
     word_list = get_word_list()
-    password = get_password()
+    password = get_password(word_list)
     print("This is the games password " + password)
-    game_word_set = get_game_word_set(word_list)
+    game_word_set = get_game_word_set(word_list, password)
     garbage_character_filler(game_word_set)
 
 
