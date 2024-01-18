@@ -1,6 +1,7 @@
 import sys
 import random
 
+
 """
 https://inventwithpython.com/bigbookpython/project33.html
 basically game_words is where I am telling python to grab the 15 words used fo the hacking mini game.
@@ -25,6 +26,27 @@ def introduce():
     )
 
 
+def get_game_word_set(word_list, password):
+    game_words_dictionary = {}
+    game_words = []
+    # we can target keys in a dictionary with variables!
+    # I want to use this technique once I get all three of them in there.
+    # place the words that have 0 letters in common into the dictionary at the 0 index.
+    game_words_dictionary[0] = get_n_overlap(password, 0)
+    # now do the same things for the other words
+    game_words_dictionary[1] = get_n_overlap(password, 1)
+    game_words_dictionary[2] = get_n_overlap(password, 2)
+    game_words_dictionary[3] = get_n_overlap(password, 3)
+    game_words_dictionary[4] = get_n_overlap(password, 4)
+    # now we combine these values in the dictionary togather into a single list.
+    game_word_set = sum(game_words_dictionary.values(), [])
+    game_word_set.append(password)
+    random.shuffle(game_word_set)
+    print("This is the game words dictionary. " + str(game_word_set))
+    print("This is the password for the game. " + str(password))
+    return game_word_set
+
+
 # this function will gather in the game words from the sevenletterwords.txt file
 def get_word_list():
     with open("sevenletterwords.txt", "r") as file:
@@ -44,8 +66,8 @@ def get_password(word_list):
 # This function gets one game word from the game word list to place in the game board row.
 # I want this function to randomly select one word from the game_word_set.
 def get_game_word(game_word_set):
-    one_game_word = random.choice(game_word_set)
-    return one_game_word
+    game_word = random.choice(game_word_set)
+    return game_word
 
 
 def hex_number():
@@ -55,10 +77,18 @@ def hex_number():
 
 
 # this function will fill the game row with garbage characters.
-# possible solution for word in game_word_set
+
+
+# I want the function to generate a hex number.
+# Ox217_ _ _ _ _ _ _ _ _ _ _
+# I than want the function to generate a random number indicating the starting position of the garbage characters and fill the row after the hex number. In this case lets say 4
+# Ox217 _ _ _ _ _ _ _ _ _ _ _
+# I than want the game word to be generated and appended to the list.
+# I than want the garbage character filler to fill the remainder of the row with garbage characters.
 def garbage_character_filler(one_game_word):
     character_row_limit = 16
     garbage_row = []
+
     garbage_row.append(hex_number())
     garbage_placement = random.randint(2, 8)
 
@@ -79,7 +109,7 @@ def garbage_character_filler(one_game_word):
 
 
 # the game words need to have a certain amount of characters in common with the password.
-def get_n_overlap(password, n):
+def get_n_overlap(password, n, word_list):
     overlapping_words = []
     x = 0
     for word in word_list:
@@ -97,46 +127,31 @@ def get_n_overlap(password, n):
 # DRIVER CODE ---------------------
 # these lines of code are here to prevent not defined issues.
 
-word_list = get_word_list()
-password = get_password(word_list)
 
-# we establish a place to hold the values
-game_words_dictionary = {}
-game_words = []
-# we can target keys in a dictionary with variables!
-# I want to use this technique once I get all three of them in there.
-# place the words that have 0 letters in common into the dictionary at the 0 index.
-game_words_dictionary[0] = get_n_overlap(password, 0)
-# now do the same things for the other words
-game_words_dictionary[1] = get_n_overlap(password, 1)
-game_words_dictionary[2] = get_n_overlap(password, 2)
-game_words_dictionary[3] = get_n_overlap(password, 3)
-game_words_dictionary[4] = get_n_overlap(password, 4)
+# outline
+""" 
+introduce the game
+get  """
 
-# now we combine these values in the dictionary togather into a single list.
-game_word_set = sum(game_words_dictionary.values(), [])
-game_word_set.append(password)
-
-# all of the game words are shuffled and random.shuffle will shuffle the values in place.
-# alright the game words are finally established!
-random.shuffle(game_word_set)
+# OUTLINE
+# INTRODUCE THE GAME : COMPLETED
+# ESTABLISH THE GAME WORDS AND THE PASSWORD
+# GET THE GAME BOARD ROWS GENERATED
+# hex memory + random number of garbage characters + game_word + random garbage characters.
 
 
-# The problem I need to solve is I need to get the overlapping words and game password and word list
-# consistent throughout my program.
-
+# HAVE THE PLAYER MAKE ATTEMPTS TO GUESS THE PASSWORD
+# HAVE A HINT SYSTEM AND A TRIES LEFT SYSTEM
+# WIN CONDITION
+# LOSING CONDITION
 
 def main():
     introduce()
-    # we call these functions to grab the game words list and the password.
-    get_word_list()
-    get_password(word_list)
-    one_game_word = get_game_word(game_word_set)
-    print("This is the one_game_word function called. ", one_game_word)
-    garbage_character_filler(one_game_word)
-    row_test = garbage_character_filler(one_game_word)
-    print("\n This is garbage_character_filler function called. ", row_test)
-    result = garbage_character_filler(one_game_word)
+    word_list = get_word_list()
+    password = get_password()
+    print("This is the games password " + password)
+    game_word_set = get_game_word_set(word_list)
+    garbage_character_filler(game_word_set)
 
 
 # If this program was run (instead of imported), run the game:
