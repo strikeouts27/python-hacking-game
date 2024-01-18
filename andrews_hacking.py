@@ -72,24 +72,41 @@ def hex_number():
     return hex_number
 
 
-# This function gets one game word from the game word list to place in the game board row.
-# I want this function to randomly select one word from the game_word_set.
-def get_game_word(game_word_set):
-    game_word = random.choice(game_word_set)
-    return game_word
+def game_word_selection(game_word_set, already_selected_words):
+    game_words_counter = 0
+    # game_word_set contains all of the function calls where python gathers words that have 0,1,2,3,4 letters in common with the password.
+    # we evaluate if the game word has been selected already. if not, than we return it so that we can call this function
+    # with other functions and join the the hex memor address + the game word+ and some garbage characters. 
+    for game_word in game_word_set:
+        if game_word not in already_selected_words:
+            already_selected_words.append(game_word)
+            return game_word
+
+        # If the game word is already selected I need python to try again to find a game word that is not already used.
+        elif game_word in already_selected_words:
+            for game_word in range(500):
+                if game_word not in already_selected_words:
+                    game_word = random.choice(game_word_set)
+                    already_selected_words.append(game_word)
+                    return game_word
 
 
 # I than want the function to generate a random number indicating the starting position of the garbage characters and fill the row after the hex number. In this case lets say 4
 # Ox217 _ _ _ _ _ _ _ _ _ _ _
 # I than want the game word to be generated and appended to the list.
 # I than want the garbage character filler to fill the remainder of the row with garbage characters.
+# i need 16 rows not one row generator
+
+
 def garbage_character_filler(one_game_word):
     character_row_limit = 16
+    game_words_being_used = 16
     garbage_row = []
-
     garbage_row.append(hex_number())
+    print(
+        "This is the current state of garbage_row with just the hex number", garbage_row
+    )
     garbage_placement = random.randint(2, 8)
-
     for i in range(garbage_placement):
         garbage_char = random.choice(garbage_chars)
         print(garbage_char, end="")
@@ -102,6 +119,10 @@ def garbage_character_filler(one_game_word):
         garbage_char = random.choice(garbage_chars)
         garbage_row.append(garbage_char)
 
+    print(
+        "After the random garbage character placement garbage row looks like this",
+        garbage_row,
+    )
     result = garbage_row
     return result
 
@@ -125,12 +146,6 @@ def get_n_overlap(word_list, n, password):
 # DRIVER CODE ---------------------
 # these lines of code are here to prevent not defined issues.
 
-
-# outline
-""" 
-introduce the game
-get  """
-
 # OUTLINE
 # INTRODUCE THE GAME : COMPLETED
 # ESTABLISH THE GAME WORDS AND THE PASSWORD
@@ -150,6 +165,7 @@ def main():
     password = get_password(word_list)
     print("This is the games password " + password)
     game_word_set = get_game_word_set(word_list, password)
+    get_game_word(game_word_set)
     garbage_character_filler(game_word_set)
 
 
