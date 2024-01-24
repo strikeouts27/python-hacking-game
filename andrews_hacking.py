@@ -88,24 +88,21 @@ def hex_number():
     return hex_number
 
 
-def game_word_selection(game_word_set, already_selected_words=None):
-    if already_selected_words is None:
-        already_selected_words = []
-
-    for game_word in game_word_set:
-        if game_word not in already_selected_words:
-            return game_word, already_selected_words
-
-        # If the game word is already selected I need python to try again to find a game word that is not already used.
-        else:
-            continue
+# python gotchas with mutable data types workaround
+# for some reason python is not iterating past the first word.
 
 
-# I than want the function to generate a random number indicating the starting position of the garbage characters and fill the row after the hex number. In this case lets say 4
-# Ox217 _ _ _ _ _ _ _ _ _ _ _
-# I than want the game word to be generated and appended to the list.
-# I than want the garbage character filler to fill the remainder of the row with garbage characters.
-# i need 16 rows not one row generator
+# do I need to return just one game word? or one game word that iterates over the dictionary. <-
+
+
+def game_word_selection(game_word_set):
+    gamewords = []
+    while len(gamewords) < 16:
+        for word in game_word_set:
+            game_word_set.pop()
+            garbageword = garbage_character_filler(word)
+            gamewords.append(garbageword)
+        return gamewords
 
 
 def garbage_character_filler(game_word):
@@ -120,8 +117,6 @@ def garbage_character_filler(game_word):
     game_row = "".join(garbage_row)
     return game_row
 
-print(garbage_character_filler(game_word="PERHAPS"))
-
 
 # DRIVER CODE ---------------------
 # these lines of code are here to prevent not defined issues.
@@ -132,12 +127,13 @@ def main():
     word_list = get_word_list()
     password = get_password(word_list)
 
+    # on this line of code we establish the game words to be used for the game session.
     game_word_set = get_game_word_set(word_list, password)
 
-    one_game_word, already_selected_words = game_word_selection(
-        game_word_set, already_selected_words=[]
-    )
-    gamerow = garbage_character_filler(one_game_word)
+    # we need to determine which game word python will use one at a time without duplicates.
+    game_rows = game_word_selection(game_word_set)
+    print(game_rows)
+
 
 
 # If this program was run (instead of imported), run the game:
