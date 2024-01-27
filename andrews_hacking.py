@@ -26,7 +26,7 @@ def introduce():
     )
 
 
-# this function will gather in the game words from the sevenletterwords.txt file
+# this function will gather in the game words from the sevenletterwords.txt file and be returned in this function.
 def get_word_list():
     with open("sevenletterwords.txt", "r") as file:
         word_list = [line.strip().upper() for line in file.readlines()]
@@ -42,6 +42,9 @@ def get_password(word_list):
     return password
 
 
+# From the word list we need game words that have a certain number of letters in common with the password.
+# in this case we sum up the dictionaries values and put them into a list.
+# after that the password is appended to the list.
 def get_game_word_set(word_list, password):
     game_words_dictionary = {}
     game_words = []
@@ -79,31 +82,16 @@ def get_n_overlap(word_list, n, password):
     return overlapping_words
 
 
-# I want the function to generate a hex number.
-# game row
+# in each game row we need a memory address that starts with a hex number.
+# this function will generate the hex number. an example is shown below.
 # Ox217_ _ _ _ _ _ _ _ _ _ _
 def hex_number():
     number = random.randint(1000, 1500)
     hex_number = hex(number)
     return hex_number
 
-
-# python gotchas with mutable data types workaround
-# for some reason python is not iterating past the first word.
-
-
-# do I need to return just one game word? or one game word that iterates over the dictionary. <-
-
-
-def game_word_selection(game_word_set):
-    gamewords = []
-    while len(gamewords) < 16:
-        for word in game_word_set:
-            game_word_set.pop()
-            garbageword = garbage_character_filler(word)
-            gamewords.append(garbageword)
-        return gamewords
-
+# this function will insert the game word at a random place and always after the hex memory number is made first.
+# the garbage characters will fill in the rest of the empty spaces.
 
 def garbage_character_filler(game_word):
     character_row_limit = 16
@@ -116,6 +104,20 @@ def garbage_character_filler(game_word):
     garbage_row.insert(insertion, game_word)
     game_row = "".join(garbage_row)
     return game_row
+
+
+
+# python gotchas with mutable data types workaround
+# python needs to be told to iterate past the first game word and to include the other 15 words.
+# this function solves that problem. 
+def game_word_selection(game_word_set):
+    gamewords = []
+    while len(gamewords) < 16:
+        for word in game_word_set:
+            game_word_set.pop()
+            garbageword = garbage_character_filler(word)
+            gamewords.append(garbageword)
+        return gamewords
 
 
 # DRIVER CODE ---------------------
@@ -133,7 +135,6 @@ def main():
     # we need to determine which game word python will use one at a time without duplicates.
     game_rows = game_word_selection(game_word_set)
     print(game_rows)
-
 
 
 # If this program was run (instead of imported), run the game:
