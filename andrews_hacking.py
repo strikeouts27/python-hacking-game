@@ -61,8 +61,8 @@ def get_game_word_set(word_list, password):
     game_word_set = sum(game_words_dictionary.values(), [])
     game_word_set.append(password)
     random.shuffle(game_word_set)
-    print("This is the game words dictionary. " + str(game_word_set))
-    print("This is the password for the game. " + str(password))
+    print("This is the game words dictionary. \n" + str(game_word_set))
+    print("This is the password for the game. \n" + str(password))
     return game_word_set
 
 
@@ -90,8 +90,10 @@ def hex_number():
     hex_number = hex(number)
     return hex_number
 
+
 # this function will insert the game word at a random place and always after the hex memory number is made first.
 # the garbage characters will fill in the rest of the empty spaces.
+
 
 def garbage_character_filler(game_word):
     character_row_limit = 16
@@ -106,10 +108,11 @@ def garbage_character_filler(game_word):
     return game_row
 
 
-
 # python gotchas with mutable data types workaround
 # python needs to be told to iterate past the first game word and to include the other 15 words.
-# this function solves that problem. 
+# this function generates a list of the game words in strings with the memory address and hex address and garbage characters.
+
+
 def game_word_selection(game_word_set):
     gamewords = []
     while len(gamewords) < 16:
@@ -120,6 +123,17 @@ def game_word_selection(game_word_set):
         return gamewords
 
 
+
+# possible tools for the job 
+
+# 
+def format_gamewords(game_rows):
+    game_string = ''.join(game_rows)
+    print(game_string)
+
+    return game_string
+
+
 # DRIVER CODE ---------------------
 # these lines of code are here to prevent not defined issues.
 
@@ -128,13 +142,16 @@ def main():
     introduce()
     word_list = get_word_list()
     password = get_password(word_list)
-
     # on this line of code we establish the game words to be used for the game session.
     game_word_set = get_game_word_set(word_list, password)
-
     # we need to determine which game word python will use one at a time without duplicates.
     game_rows = game_word_selection(game_word_set)
-    print(game_rows)
+    print(
+        "This is the result of the game_word_selection call \n, this function returns game_rows",
+        game_rows,
+    )
+    game_rows = format_gamewords(game_rows)
+    print("this is the output of the format_gamewords function", game_rows)
 
 
 # If this program was run (instead of imported), run the game:
