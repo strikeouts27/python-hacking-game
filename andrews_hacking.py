@@ -24,6 +24,7 @@ def introduce():
     print(
         f"Agent {name}! The evil dictator Kim Jong Un has decided to launch the nukes. All of humanity's hopes rest on your shoulders to hack into the system and stop the launch. You will see a series of possible words that are the password. Use our hint system software to determine if you are close to guessing the password. The hint system will tell you the letters that the word choice and the password have in common as well as positioning. You are our last hope.... \n Okay agent {name}, here are list of the possible passwords. \n Type in the word from the available list of words that you believe is the password."
     )
+    return name
 
 
 # this function will gather in the game words from the sevenletterwords.txt file and be returned in this function.
@@ -45,6 +46,8 @@ def get_password(word_list):
 # From the word list we need game words that have a certain number of letters in common with the password.
 # in this case we sum up the dictionaries values and put them into a list.
 # after that the password is appended to the list.
+
+
 def get_game_word_set(word_list, password):
     game_words_dictionary = {}
     game_words = []
@@ -116,6 +119,7 @@ def garbage_character_filler(game_word):
 # an issue I ran into was that using pop modifies the list and results in items being skipped over
 # so the keyword and is utilized and word is placed as the variable.
 
+
 def game_word_selection(game_word_set):
     gamewords = []
     while len(gamewords) < 16 and game_word_set:
@@ -134,7 +138,8 @@ def game_word_selection(game_word_set):
 #             gamewords.append(garbageword)
 #         return gamewords
 
-# possible tools for the job
+# format gamewords functions job is to create two columns for the gamewords and
+# rows with two game words and there string designs.
 
 
 def format_gamewords(game_rows):
@@ -152,12 +157,91 @@ def format_gamewords(game_rows):
     return game_string
 
 
+def player_guess(name, game_word_set, password):
+    states = state_lost()
+    while True:
+        password_attempts = 4
+        guess = input(
+            f"Okay agent {name}, you can see the list of possible passwords. Select one of them and lets hope we hack into the system! \n"
+        )
+        if guess == password:
+            print("Access granted! YOU DID IT! YOU SAVED THE WORLD")
+        elif guess in game_word_set and guess != password:
+            password_attempts -= 1
+            print(f" INCORRECT! A NUKE IS LAUNCHED TOWARDS {state}")
+
+
+def states_lost():
+
+    small_states = [
+        "Alaska",
+        "Colorado",
+        "Connecticut",
+        "Delaware",
+        "Guam",
+        "Hawaii",
+        "Iowa",
+        "Idaho",
+        "Illinois",
+        "Indiana",
+        "Kansas",
+        "Kentucky",
+        "Louisiana",
+        "Massachusetts",
+        "Maryland",
+        "Maine",
+        "Minnesota",
+        "Mississippi",
+        "Montana",
+        "North Dakota",
+        "Nebraska",
+        "New Hampshire",
+        "New Jersey",
+        "Oklahoma",
+        "Oregon",
+        "Puerto Rico",
+        "Rhode Island",
+        "South Dakota",
+        "Tennessee",
+        "Virgin Islands",
+        "Vermont",
+        "Washington",
+        "Wisconsin",
+        "West Virginia",
+        "Wyoming",
+    ]
+    medium_states = [
+        "Arkansas",
+        "Alabama",
+        "Arizona",
+        "Georgia",
+        "Michigan",
+        "Missouri",
+        "North Carolina",
+        "New Mexico",
+        "Nevada",
+        "Pennsylvania",
+        "South Carolina",
+        "Utah",
+        "Virginia",
+    ]
+    important_states = [
+        "California",
+        "Florida",
+        "New York",
+        "Ohio",
+        "Texas",
+        "District ",
+        "of Columbia",
+    ]
+
+
 # DRIVER CODE ---------------------
 # these lines of code are here to prevent not defined issues.
 
 
 def main():
-    introduce()
+    name = introduce()
     word_list = get_word_list()
     password = get_password(word_list)
     # on this line of code we establish the game words to be used for the game session.
@@ -170,7 +254,10 @@ def main():
     game_rows = game_word_selection(game_word_set)
     print("\n")
     game_rows = format_gamewords(game_rows)
+    print("Okay we managed to get into his system! \n")
     print(game_rows)
+    print("\n")
+    guess = player_guess(name)
 
 
 # If this program was run (instead of imported), run the game:
