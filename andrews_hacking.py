@@ -67,6 +67,8 @@ def get_game_word_set(word_list, password):
 
 
 # the game words need to have a certain amount of characters in common with the password.
+# in this function x will hold the number of words that will be generated with each functionc call.
+# so if this funciton is called once than three words will generate.
 def get_n_overlap(word_list, n, password):
     overlapping_words = []
     x = 0
@@ -111,25 +113,41 @@ def garbage_character_filler(game_word):
 # python gotchas with mutable data types workaround
 # python needs to be told to iterate past the first game word and to include the other 15 words.
 # this function generates a list of the game words in strings with the memory address and hex address and garbage characters.
-
+# an issue I ran into was that using pop modifies the list and results in items being skipped over
+# so the keyword and is utilized and word is placed as the variable.
 
 def game_word_selection(game_word_set):
     gamewords = []
-    while len(gamewords) < 16:
-        for word in game_word_set:
-            game_word_set.pop()
-            garbageword = garbage_character_filler(word)
-            gamewords.append(garbageword)
-        return gamewords
+    while len(gamewords) < 16 and game_word_set:
+        word = game_word_set.pop()
+        garbageword = garbage_character_filler(word)
+        gamewords.append(garbageword)
+    return gamewords
 
 
+# def game_word_selection(game_word_set):
+#     gamewords = []
+#     while len(gamewords) < 16:
+#         for word in game_word_set:
+#             game_word_set.pop()
+#             garbageword = garbage_character_filler(word)
+#             gamewords.append(garbageword)
+#         return gamewords
 
-# possible tools for the job 
+# possible tools for the job
 
-# 
+
 def format_gamewords(game_rows):
-    game_string = ''.join(game_rows)
-    print(game_string)
+    game_string = "".join(game_rows)
+    formatted_rows = []
+
+    for i, row in enumerate(game_rows, start=1):
+        formatted_rows.append(row.lstrip())
+        if i % 2 == 0 and i != len(game_rows):
+            formatted_rows.append("\n")  # Add a new line after every two iterations
+        else:
+            formatted_rows.append("     ")  # Add 5 spaces in between each iteration
+    game_string = "".join(formatted_rows)
 
     return game_string
 
@@ -144,14 +162,15 @@ def main():
     password = get_password(word_list)
     # on this line of code we establish the game words to be used for the game session.
     game_word_set = get_game_word_set(word_list, password)
+    print(
+        "This is the output of the get_game_word_set which shows game_word_set \n",
+        game_word_set,
+    )
     # we need to determine which game word python will use one at a time without duplicates.
     game_rows = game_word_selection(game_word_set)
-    print(
-        "This is the result of the game_word_selection call \n, this function returns game_rows",
-        game_rows,
-    )
+    print("\n")
     game_rows = format_gamewords(game_rows)
-    print("this is the output of the format_gamewords function", game_rows)
+    print(game_rows)
 
 
 # If this program was run (instead of imported), run the game:
