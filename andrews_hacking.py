@@ -172,7 +172,6 @@ def player_guess(name, game_word_set, password):
 
 
 def states_lost():
-
     small_states = [
         "Alaska",
         "Colorado",
