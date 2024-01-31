@@ -157,21 +157,40 @@ def format_gamewords(game_rows):
     return game_string
 
 
-def player_guess(name, game_word_set, password):
-    states = state_lost()
-    while True:
-        password_attempts = 4
-        guess = input(
-            f"Okay agent {name}, you can see the list of possible passwords. Select one of them and lets hope we hack into the system! \n"
-        )
+def evaluate_guess(password, gamewords, name, body_count):
+    attempts_left = 3
+    states_lost = []
+
+    while attempts_left != 0:
+        guess = input("WELCOME SUPREME LEADER PLEASE TYPE THE PASSWORD: ")
         if guess == password:
-            print("Access granted! YOU DID IT! YOU SAVED THE WORLD")
-        elif guess in game_word_set and guess != password:
-            password_attempts -= 1
-            print(f" INCORRECT! A NUKE IS LAUNCHED TOWARDS {state}")
+            print("\n ACCESS GRANTED! YOU DID IT! YOU SAVED THE WORLD!")
+            print(
+                "\n YOU WIN! GREAT JOB AGENT {name} I WILL SPEAK TO THE POTUS ABOUT YOUR MEDAL OF HONOR AND PROMOTION!"
+            )
+            break
+            # game_word_set has the symbols which means guessing this is impossible. unless i tell them to input the symbols.
+        elif guess in gamewords and guess != password:
+            print("\n Oh no! We got it wrong!")
+            lost_state = states_lost()
+            print("\n We lost the state of {state} in a nuclear explosion!")
+            attempts -= 1
+            print("\n We have {attempts_left} left")
+            continue
+
+        else:
+            print(
+                f"\n Agent {name}, what are you doing! Thats not one of the words listed! Pick one of the game words listed on screen!"
+            )
+            
+
+
+# determine a state, determine a point value, add the states to a dictionary and sum up the totals at the end of the game.
 
 
 def states_lost():
+    states = {}
+
     small_states = [
         "Alaska",
         "Colorado",
@@ -224,7 +243,7 @@ def states_lost():
         "Utah",
         "Virginia",
     ]
-    important_states = [
+    important_states = {
         "California",
         "Florida",
         "New York",
@@ -232,7 +251,11 @@ def states_lost():
         "Texas",
         "District ",
         "of Columbia",
-    ]
+    }
+
+
+def hint_system():
+    pass
 
 
 # DRIVER CODE ---------------------
@@ -256,7 +279,9 @@ def main():
     print("Okay we managed to get into his system! \n")
     print(game_rows)
     print("\n")
-    guess = player_guess(name)
+
+    state = []
+    evaluate_guess(password, game_word_set, name, state)
 
 
 # If this program was run (instead of imported), run the game:
