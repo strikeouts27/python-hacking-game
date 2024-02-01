@@ -22,7 +22,7 @@ garbage_chars = "~!@#$%^&*()_+-={}[]|;:,.<>?/"
 def introduce():
     name = input("To start the game please type in your player name: ")
     print(
-        f"Agent {name}! The evil dictator Kim Jong Un has decided to launch the nukes. All of humanity's hopes rest on your shoulders to hack into the system and stop the launch. You will see a series of possible words that are the password. Use our hint system software to determine if you are close to guessing the password. The hint system will tell you the letters that the word choice and the password have in common as well as positioning. You are our last hope.... \n Okay agent {name}, here are list of the possible passwords. \n Type in the word from the available list of words that you believe is the password."
+        f"\n Agent {name}! The evil dictator Kim Jong Un has decided to launch the nukes. All of humanity's hopes rest on your shoulders to hack into the system and stop the launch. You will see a series of possible words that are the password. Use our hint system software to determine if you are close to guessing the password. The hint system will tell you the letters that the word choice and the password have in common as well as positioning. You are our last hope.... \n Okay agent {name}, here are list of the possible passwords. \n Type in the word from the available list of words that you believe is the password."
     )
     return name
 
@@ -64,8 +64,8 @@ def get_game_word_set(word_list, password):
     game_word_set = sum(game_words_dictionary.values(), [])
     game_word_set.append(password)
     random.shuffle(game_word_set)
-    print("This is the game words dictionary. \n" + str(game_word_set))
-    print("This is the password for the game. \n" + str(password))
+    # Test: print("This is the game words dictionary. \n" + str(game_word_set))
+    # Test: print("This is the password for the game. \n" + str(password))
     return game_word_set
 
 
@@ -178,7 +178,7 @@ def evaluate_guess(password, name, word_list, body_count):
             attempts_left -= 1
             print(f"\n We have {attempts_left} attempts left")
             continue
-        
+
         elif attempts_left == 0:
             "MISSION FAILED! CALL IN OUR AIRSTRIKE UNITS AND ATTACK! LETS REGROUP AT THE BUNKER!"
         else:
@@ -264,7 +264,6 @@ def hint_system():
 
     # DRIVER CODE ---------------------
     # these lines of code are here to prevent not defined issues.
-
 
 
 def main():
