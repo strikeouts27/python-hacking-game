@@ -276,7 +276,10 @@ def get_states_lost():
 
 
 def hint_system():
-    pass
+    print(
+        "\nLets utilize our software to determine what letters and spacing your guess has in common with the password!"
+    )
+    # need a pausing mechanism
 
     # DRIVER CODE ---------------------
     # these lines of code are here to prevent not defined issues.
