@@ -157,12 +157,13 @@ def format_gamewords(game_rows):
     return game_string
 
 
-def evaluate_guess(password, gamewords, name, body_count):
+def evaluate_guess(password, name, word_list, body_count):
     attempts_left = 3
     states_lost = []
+    game_word_set = get_game_word_set(word_list, password)
 
     while attempts_left != 0:
-        guess = input("WELCOME SUPREME LEADER PLEASE TYPE THE PASSWORD: ")
+        guess = input("WELCOME SUPREME LEADER PLEASE TYPE THE PASSWORD: ").upper()
         if guess == password:
             print("\n ACCESS GRANTED! YOU DID IT! YOU SAVED THE WORLD!")
             print(
@@ -170,19 +171,23 @@ def evaluate_guess(password, gamewords, name, body_count):
             )
             break
             # game_word_set has the symbols which means guessing this is impossible. unless i tell them to input the symbols.
-        elif guess in gamewords and guess != password:
+        elif guess in game_word_set and guess != password:
             print("\n Oh no! We got it wrong!")
-            lost_state = states_lost()
+            # lost_state = states_lost()
             print("\n We lost the state of {state} in a nuclear explosion!")
-            attempts -= 1
-            print("\n We have {attempts_left} left")
+            attempts_left -= 1
+            print(f"\n We have {attempts_left} attempts left")
             continue
-
+        
+        elif attempts_left == 0:
+            "MISSION FAILED! CALL IN OUR AIRSTRIKE UNITS AND ATTACK! LETS REGROUP AT THE BUNKER!"
         else:
             print(
                 f"\n Agent {name}, what are you doing! Thats not one of the words listed! Pick one of the game words listed on screen!"
             )
-            
+            print("This is the current guess", guess)
+            print("Test for game_word_set", game_word_set)
+            print("This is the password", password)
 
 
 # determine a state, determine a point value, add the states to a dictionary and sum up the totals at the end of the game.
@@ -257,21 +262,16 @@ def states_lost():
 def hint_system():
     pass
 
+    # DRIVER CODE ---------------------
+    # these lines of code are here to prevent not defined issues.
 
-# DRIVER CODE ---------------------
-# these lines of code are here to prevent not defined issues.
 
 
 def main():
     name = introduce()
     word_list = get_word_list()
     password = get_password(word_list)
-    # on this line of code we establish the game words to be used for the game session.
     game_word_set = get_game_word_set(word_list, password)
-    print(
-        "This is the output of the get_game_word_set which shows game_word_set \n",
-        game_word_set,
-    )
     # we need to determine which game word python will use one at a time without duplicates.
     game_rows = game_word_selection(game_word_set)
     print("\n")
@@ -279,9 +279,7 @@ def main():
     print("Okay we managed to get into his system! \n")
     print(game_rows)
     print("\n")
-
-    state = []
-    evaluate_guess(password, game_word_set, name, state)
+    evaluate_guess(password, name, word_list, body_count=0)
 
 
 # If this program was run (instead of imported), run the game:
