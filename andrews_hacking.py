@@ -173,20 +173,28 @@ def evaluate_guess(password, name, word_list, body_count):
             # game_word_set has the symbols which means guessing this is impossible. unless i tell them to input the symbols.
         elif guess in game_word_set and guess != password:
             print("\n Oh no! We got it wrong!")
-            # lost_state = states_lost()
-            print("\n We lost the state of {state} in a nuclear explosion!")
+            state_lost = get_states_lost()
+            print(f"\n We lost the state of {state_lost} in a nuclear explosion!")
+            states_lost.append(state_lost)
+            print(f"\n So far we have lost the following territories: {states_lost}")
             attempts_left -= 1
 
             if attempts_left > 0:
                 print(f"\n We have {attempts_left} attempts left")
                 continue
-            
+
             elif attempts_left == 0:
-                        print("WE ARE OUT OF TIME! MISSION FAILED! CALL IN OUR AIRSTRIKE UNITS AND ATTACK! LETS REGROUP AT THE BUNKER!")
-                        print("GAME OVER! Better luck next time! At least we can play Fallout3 while things calm down!")
-            
+                print(
+                    "WE ARE OUT OF TIME! MISSION FAILED! CALL IN OUR AIRSTRIKE UNITS AND ATTACK! LETS REGROUP AT THE BUNKER!"
+                )
+                print(
+                    "GAME OVER! Better luck next time! At least we can play Fallout3 while things calm down!"
+                )
+
             else:
-                print("Error please blame the programmer who made this software for this message!")
+                print(
+                    "Error please blame the programmer who made this software for this message!"
+                )
 
         else:
             print(
@@ -195,21 +203,30 @@ def evaluate_guess(password, name, word_list, body_count):
             # print("Test:This is the current guess", guess)
             # print("Test: for game_word_set", game_word_set)
             # print("Test: This is the password", password)
-    
-    
 
 
 # determine a state, determine a point value, add the states to a dictionary and sum up the totals at the end of the game.
 
 
-def states_lost():
-    states = {}
-
-    small_states = [
+# have all of the states in one dictionary and have each state have a point value.
+# have small states be worth 50, intermediate 100, and large states 500 points.
+# or just have states lost and no point values.
+# random.choice
+def get_states_lost():
+    usa_states = [
         "Alaska",
+        "Alabama",
+        "Arkansas",
+        "American Samoa",
+        "Arizona",
+        "California",
         "Colorado",
         "Connecticut",
+        "District ",
+        "of Columbia",
         "Delaware",
+        "Florida",
+        "Georgia",
         "Guam",
         "Hawaii",
         "Iowa",
@@ -222,19 +239,31 @@ def states_lost():
         "Massachusetts",
         "Maryland",
         "Maine",
+        "Michigan",
         "Minnesota",
+        "Missouri",
         "Mississippi",
         "Montana",
+        "North Carolina",
         "North Dakota",
         "Nebraska",
         "New Hampshire",
         "New Jersey",
+        "New Mexico",
+        "Nevada",
+        "New York",
+        "Ohio",
         "Oklahoma",
         "Oregon",
+        "Pennsylvania",
         "Puerto Rico",
         "Rhode Island",
+        "South Carolina",
         "South Dakota",
         "Tennessee",
+        "Texas",
+        "Utah",
+        "Virginia",
         "Virgin Islands",
         "Vermont",
         "Washington",
@@ -242,30 +271,8 @@ def states_lost():
         "West Virginia",
         "Wyoming",
     ]
-    medium_states = [
-        "Arkansas",
-        "Alabama",
-        "Arizona",
-        "Georgia",
-        "Michigan",
-        "Missouri",
-        "North Carolina",
-        "New Mexico",
-        "Nevada",
-        "Pennsylvania",
-        "South Carolina",
-        "Utah",
-        "Virginia",
-    ]
-    important_states = {
-        "California",
-        "Florida",
-        "New York",
-        "Ohio",
-        "Texas",
-        "District ",
-        "of Columbia",
-    }
+    lost_state = random.choice(usa_states)
+    return lost_state
 
 
 def hint_system():
