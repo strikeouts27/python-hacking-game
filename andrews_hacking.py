@@ -20,7 +20,7 @@ garbage_chars = "~!@#$%^&*()_+-={}[]|;:,.<>?/"
 
 
 def introduce():
-    name = input("To start the game please type in your player name: ")
+    name = input("\nTo start the game please type in your player name: ")
     print(
         f"\n Agent {name}! The evil dictator Kim Jong Un has decided to launch the nukes. All of humanity's hopes rest on your shoulders to hack into the system and stop the launch. You will see a series of possible words that are the password. Use our hint system software to determine if you are close to guessing the password. The hint system will tell you the letters that the word choice and the password have in common as well as positioning. You are our last hope.... \n Okay agent {name}, here are list of the possible passwords. \n Type in the word from the available list of words that you believe is the password."
     )
@@ -176,18 +176,27 @@ def evaluate_guess(password, name, word_list, body_count):
             # lost_state = states_lost()
             print("\n We lost the state of {state} in a nuclear explosion!")
             attempts_left -= 1
-            print(f"\n We have {attempts_left} attempts left")
-            continue
 
-        elif attempts_left == 0:
-            "MISSION FAILED! CALL IN OUR AIRSTRIKE UNITS AND ATTACK! LETS REGROUP AT THE BUNKER!"
+            if attempts_left > 0:
+                print(f"\n We have {attempts_left} attempts left")
+                continue
+            
+            elif attempts_left == 0:
+                        print("WE ARE OUT OF TIME! MISSION FAILED! CALL IN OUR AIRSTRIKE UNITS AND ATTACK! LETS REGROUP AT THE BUNKER!")
+                        print("GAME OVER! Better luck next time! At least we can play Fallout3 while things calm down!")
+            
+            else:
+                print("Error please blame the programmer who made this software for this message!")
+
         else:
             print(
                 f"\n Agent {name}, what are you doing! Thats not one of the words listed! Pick one of the game words listed on screen!"
             )
-            print("This is the current guess", guess)
-            print("Test for game_word_set", game_word_set)
-            print("This is the password", password)
+            # print("Test:This is the current guess", guess)
+            # print("Test: for game_word_set", game_word_set)
+            # print("Test: This is the password", password)
+    
+    
 
 
 # determine a state, determine a point value, add the states to a dictionary and sum up the totals at the end of the game.
