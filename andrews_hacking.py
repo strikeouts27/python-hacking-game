@@ -24,6 +24,7 @@ def introduce():
     print(
         f"\n Agent {name}! The evil dictator Kim Jong Un has decided to launch the nukes. All of humanity's hopes rest on your shoulders to hack into the system and stop the launch. You will see a series of possible words that are the password. Use our hint system software to determine if you are close to guessing the password. The hint system will tell you the letters that the word choice and the password have in common as well as positioning. You are our last hope.... \n Okay agent {name}, here are list of the possible passwords. \n Type in the word from the available list of words that you believe is the password."
     )
+
     return name
 
 
@@ -157,13 +158,18 @@ def format_gamewords(game_rows):
     return game_string
 
 
-def evaluate_guess(password, name, word_list, body_count):
+def make_guess():
+    guess = input("WELCOME SUPREME LEADER PLEASE TYPE THE PASSWORD: ").upper()
+    return guess
+
+
+def evaluate_guess(password, name, word_list):
     attempts_left = 3
     states_lost = []
     game_word_set = get_game_word_set(word_list, password)
+    guess = make_guess()
 
     while attempts_left != 0:
-        guess = input("WELCOME SUPREME LEADER PLEASE TYPE THE PASSWORD: ").upper()
         if guess == password:
             print("\n ACCESS GRANTED! YOU DID IT! YOU SAVED THE WORLD!")
             print(
@@ -180,29 +186,24 @@ def evaluate_guess(password, name, word_list, body_count):
             attempts_left -= 1
 
             if attempts_left > 0:
-                print(f"\n We have {attempts_left} attempts left")
-                continue
+                print(f"\n We have {attempts_left} attempts left!")
+                make_guess()
 
             elif attempts_left == 0:
                 print(
-                    "WE ARE OUT OF TIME! MISSION FAILED! CALL IN OUR AIRSTRIKE UNITS AND ATTACK! LETS REGROUP AT THE BUNKER!"
+                    "\n WE ARE OUT OF TIME! MISSION FAILED! CALL IN OUR AIRSTRIKE UNITS AND ATTACK! LETS REGROUP AT THE BUNKER!"
                 )
                 print(
                     "GAME OVER! Better luck next time! At least we can play Fallout3 while things calm down!"
-                )
-
-            else:
-                print(
-                    "Error please blame the programmer who made this software for this message!"
                 )
 
         else:
             print(
                 f"\n Agent {name}, what are you doing! Thats not one of the words listed! Pick one of the game words listed on screen!"
             )
-            # print("Test:This is the current guess", guess)
-            # print("Test: for game_word_set", game_word_set)
-            # print("Test: This is the password", password)
+        # print("Test:This is the current guess", guess)
+        # print("Test: for game_word_set", game_word_set)
+        # print("Test: This is the password", password)
 
 
 # determine a state, determine a point value, add the states to a dictionary and sum up the totals at the end of the game.
@@ -297,7 +298,8 @@ def main():
     print("Okay we managed to get into his system! \n")
     print(game_rows)
     print("\n")
-    evaluate_guess(password, name, word_list, body_count=0)
+
+    evaluate_guess(password, name, word_list)
 
 
 # If this program was run (instead of imported), run the game:
