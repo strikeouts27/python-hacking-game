@@ -184,6 +184,7 @@ def evaluate_guess(password, name, word_list):
             states_lost.append(state_lost)
             print(f"\n So far we have lost the following territories: {states_lost}")
             attempts_left -= 1
+            hint_system(guess, password)
 
             if attempts_left > 0:
                 print(f"\n We have {attempts_left} attempts left!")
@@ -276,10 +277,22 @@ def get_states_lost():
     return lost_state
 
 
-def hint_system():
-    print(
-        "\nLets utilize our software to determine what letters and spacing your guess has in common with the password!"
-    )
+def hint_system(guess, password):
+    letters_used = [] 
+    matching_letters = 0
+
+    for letter in guess:
+        if letter in password and letter not in letters_used:
+            letters_used.append(letter)
+            matching_letters += 1
+            print("\nLets utilize our software to determine what letters and spacing your guess has in common with the password!")
+            print(f"Found: {matching_letters} of {len(password)} matching letters")
+        elif letter in password and letter in letters_used:
+            continue
+        else:
+            print("Next letter in the guess is not found in password, moving on!")
+
+
     # need a pausing mechanism
 
     # DRIVER CODE ---------------------
