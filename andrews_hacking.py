@@ -22,7 +22,7 @@ garbage_chars = "~!@#$%^&*()_+-={}[]|;:,.<>?/"
 def introduce():
     name = input("\nTo start the game please type in your player name: ")
     print(
-        f"\n Agent {name}! The evil dictator Kim Jong Un has decided to launch the nukes. All of humanity's hopes rest on your shoulders to hack into the system and stop the launch. You will see a series of possible words that are the password. Use our hint system software to determine if you are close to guessing the password. The hint system will tell you the letters that the word choice and the password have in common as well as positioning. You are our last hope.... \n Okay agent {name}, here are list of the possible passwords. \n Type in the word from the available list of words that you believe is the password."
+        f"\n Agent {name}! The evil dictator Kim Jong Un has decided to launch the nukes. All of humanity's hopes rest on your shoulders to hack into the system and stop the launch. You will see a series of possible words that are the password. Use our hint system software to determine if you are close to guessing the password. The hint system will tell you the letters that the word choice and the password have in common as well as positioning. You are our last hope.... \n Okay agent {name}, here are list of the possible passwords. \n Type in the word from the available list of words that you believe is the password. We will convert all of the letters in your guess to uppercase and evaluate each letter with our software to see if we can find matching letters to the password."
     )
 
     return name
@@ -291,7 +291,7 @@ def hint_system(guess, password):
             print("A duplicate letter was found in the guess made and the password. It will only count once in the hint system. ")
             continue
         else:
-            print("Next letter in the guess is not found in password, moving on!")
+            print("The letter evaluated in the guess is not found in password, lets move on to the next letter in the guess!")
 
 
     # need a pausing mechanism
