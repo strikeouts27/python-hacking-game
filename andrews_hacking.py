@@ -173,7 +173,7 @@ def evaluate_guess(password, name, word_list):
         if guess == password:
             print("\n ACCESS GRANTED! YOU DID IT! YOU SAVED THE WORLD!")
             print(
-                "\n YOU WIN! GREAT JOB AGENT {name} I WILL SPEAK TO THE POTUS ABOUT YOUR MEDAL OF HONOR AND PROMOTION!"
+                f"\n YOU WIN! GREAT JOB AGENT {name} I WILL SPEAK TO THE POTUS ABOUT YOUR MEDAL OF HONOR AND PROMOTION!"
             )
             break
             # game_word_set has the symbols which means guessing this is impossible. unless i tell them to input the symbols.
@@ -288,6 +288,7 @@ def hint_system(guess, password):
             print("\nLets utilize our software to determine what letters and spacing your guess has in common with the password!")
             print(f"Found: {matching_letters} of {len(password)} matching letters")
         elif letter in password and letter in letters_used:
+            print("A duplicate letter was found in the guess made and the password. It will only count once in the hint system. ")
             continue
         else:
             print("Next letter in the guess is not found in password, moving on!")
