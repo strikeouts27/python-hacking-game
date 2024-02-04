@@ -163,7 +163,7 @@ def make_guess():
     return guess
 
 
-def evaluate_guess(password, name, word_list):
+def evaluate_guess(password, name, word_list, game_rows):
     attempts_left = 3
     states_lost = []
     game_word_set = get_game_word_set(word_list, password)
@@ -184,6 +184,7 @@ def evaluate_guess(password, name, word_list):
             states_lost.append(state_lost)
             print(f"\n So far we have lost the following territories: {states_lost}")
             attempts_left -= 1
+            print(game_rows)
             hint_system(guess, password)
 
             if attempts_left > 0:
@@ -278,21 +279,26 @@ def get_states_lost():
 
 
 def hint_system(guess, password):
-    letters_used = [] 
+    letters_used = []
     matching_letters = 0
 
     for letter in guess:
         if letter in password and letter not in letters_used:
             letters_used.append(letter)
             matching_letters += 1
-            print("\nLets utilize our software to determine what letters and spacing your guess has in common with the password!")
+            print(
+                "\nLets utilize our software to determine what letters and spacing your guess has in common with the password!"
+            )
             print(f"Found: {matching_letters} of {len(password)} matching letters")
         elif letter in password and letter in letters_used:
-            print("A duplicate letter was found in the guess made and the password. It will only count once in the hint system. ")
+            print(
+                "A duplicate letter was found in the guess made and the password. It will only count once in the hint system. "
+            )
             continue
         else:
-            print("The letter evaluated in the guess is not found in password, lets move on to the next letter in the guess!")
-
+            print(
+                "The letter evaluated in the guess is not found in password, lets move on to the next letter in the guess!"
+            )
 
     # need a pausing mechanism
 
@@ -313,7 +319,7 @@ def main():
     print(game_rows)
     print("\n")
 
-    evaluate_guess(password, name, word_list)
+    evaluate_guess(password, name, word_list, game_rows)
 
 
 # If this program was run (instead of imported), run the game:
