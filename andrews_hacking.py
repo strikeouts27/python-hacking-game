@@ -184,28 +184,29 @@ def evaluate_guess(password, name, word_list, game_rows):
             states_lost.append(state_lost)
             print(f"\n So far we have lost the following territories: {states_lost}")
             attempts_left -= 1
+            print(f"\n We have {attempts_left} attempts left!")
             print(game_rows)
             hint_system(guess, password)
+            make_guess()
 
-            if attempts_left > 0:
-                print(f"\n We have {attempts_left} attempts left!")
-                make_guess()
-
-            elif attempts_left == 0:
-                print(
-                    "\n WE ARE OUT OF TIME! MISSION FAILED! CALL IN OUR AIRSTRIKE UNITS AND ATTACK! LETS REGROUP AT THE BUNKER!"
-                )
-                print(
-                    "GAME OVER! Better luck next time! At least we can play Fallout3 while things calm down!"
-                )
+        elif attempts_left == 0:
+            print(
+                "\n WE ARE OUT OF TIME! MISSION FAILED! CALL IN OUR AIRSTRIKE UNITS AND ATTACK! LETS REGROUP AT THE BUNKER!"
+            )
+            print(
+                "GAME OVER! Better luck next time! At least we can play Fallout3 while things calm down!"
+            )
 
         else:
             print(
                 f"\n Agent {name}, what are you doing! Thats not one of the words listed! Pick one of the game words listed on screen!"
             )
-        # print("Test:This is the current guess", guess)
-        # print("Test: for game_word_set", game_word_set)
-        # print("Test: This is the password", password)
+
+def software_run():
+    pass 
+    # print("Test:This is the current guess", guess)
+    # print("Test: for game_word_set", game_word_set)
+    # print("Test: This is the password", password)
 
 
 # determine a state, determine a point value, add the states to a dictionary and sum up the totals at the end of the game.
@@ -286,10 +287,7 @@ def hint_system(guess, password):
         if letter in password and letter not in letters_used:
             letters_used.append(letter)
             matching_letters += 1
-            print(
-                "\nLets utilize our software to determine what letters and spacing your guess has in common with the password!"
-            )
-            print(f"Found: {matching_letters} of {len(password)} matching letters")
+
         elif letter in password and letter in letters_used:
             print(
                 "A duplicate letter was found in the guess made and the password. It will only count once in the hint system. "
@@ -300,6 +298,10 @@ def hint_system(guess, password):
                 "The letter evaluated in the guess is not found in password, lets move on to the next letter in the guess!"
             )
 
+    print(
+        "\nLets utilize our software to determine what letters and spacing your guess has in common with the password!"
+    )
+    print(f"Found: {matching_letters} of {len(password)} matching letters")
     # need a pausing mechanism
 
     # DRIVER CODE ---------------------
